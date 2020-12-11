@@ -63,25 +63,25 @@
       <div class="form-group">
         <div class="col-md-4 mb-3">
           <label for="bookTitle">Título:</label>
-          <input type="text" class="form-control" required id="bookTitle" name="bookTitle">
+          <input type="text" required class="form-control" required id="bookTitle" name="bookTitle">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4 mb-3">
           <label for="bookWriter">Autor:</label>
-          <input type="text" class="form-control" required id="bookWriter" name="bookWriter">
+          <input type="text" required class="form-control" required id="bookWriter" name="bookWriter">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4 mb-3">
           <label for="bookCompany">Editora:</label>
-          <input type="text" class="form-control" required id="bookCompany" name="bookCompany">
+          <input type="text" required class="form-control" required id="bookCompany" name="bookCompany">
         </div>
       </div>
       <div class="form-group">
         <div class="col-md-4 mb-3">
           <label for="bookAmount">Valor:</label>
-          <input type="text" class="form-control" required id="bookAmount" name="bookAmount">
+          <input type="number" required class="form-control" required id="bookAmount" name="bookAmount">
         </div>
       </div>
       <button type="submit" class="btn btn-primary" name="submit">Enviar</button>

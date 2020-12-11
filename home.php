@@ -12,11 +12,8 @@
   </head>
   <body>
     <?php session_start(); ?> 
-    <?php if ($_SESSION['name'] == 'admin'){
-      header("Location: admin.php");
-    }?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">My Orders</a>
+      <a class="navbar-brand" href="#">Minhas compras</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -59,16 +56,18 @@
       $id = $_SESSION['id'];
       $query = "SELECT * FROM orders WHERE customer_id=$id";
       $resultado = mysqli_query($conexao,$query);
+
+      $valorTotal = 0;
     ?>
 
-    <table class="table">
+    <table class="table table-hover">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Titulo</th>
           <th scope="col">Escritor(a)</th>
           <th scope="col">Editora</th>
-          <th scope="col">Valor total</th>
+          <th scope="col">Valor Unitário</th>
           <th scope="col"><th>
           <th scope="col"><th>
         </tr>
@@ -76,15 +75,14 @@
       <tbody>
         <?php
           while($linha = mysqli_fetch_array($resultado)){
+            $valorTotal += $linha['amount'];
         ?>
         <tr>
-          <?php
-            echo "<td>".$linha['id']."</td>
-            <td>".$linha['title']."</td>
-            <td>".$linha['writer']."</td>
-            <td>".$linha['company']."</td>
-            <td>".$linha['amount']."</td>";
-          ?>
+            <th><?php echo $linha['id'] ?></th>
+            <td><?php echo $linha['title'] ?></td>
+            <td><?php echo $linha['writer'] ?></td>
+            <td><?php echo $linha['company'] ?></td>
+            <td><?php echo $linha['amount'] ?></td>
           <td>
             <form method = "post" action="update_order.php">
               <input type="hidden" id="inputHidden" name="dataForUpdating" value=<?php echo $linha['id']; ?>>  
@@ -102,6 +100,16 @@
           }
         ?>
       </tbody>
+      <tfoot>
+          <tr>
+            <td class="text-right font-weight-bolder" colspan="4">
+              Valor total
+            </td>
+            <td class="font-weight-bolder" colspan="3">
+              <?php echo "R$".$valorTotal ?>
+            </td>
+          <tr>
+      </tfoot>
     </table>
 
     <?php

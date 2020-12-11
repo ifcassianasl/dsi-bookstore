@@ -14,7 +14,7 @@
   <?php session_start(); ?> 
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">My Orders</a>
+    <a class="navbar-brand" href="#">Minhas compras</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -43,15 +43,11 @@
       $conexao = mysqli_connect("localhost","root","","BookStoreDB") or print (mysqli_error());
       
       $query = "UPDATE orders 
-        SET title='$bookTitle', writer='$bookWriter', company='$bookcompany', amount='$amount'
+        SET title='$bookTitle', writer='$bookWriter', company='$bookCompany', amount='$amount'
         WHERE id=$order_id";
       
       if (mysqli_query($conexao, $query)) {
-      ?> 
-        <div class="alert alert-info" role="alert">
-          <?php echo "<strong>Order has been updated.</strong>"; ?>
-        </div>
-      <?php
+        header("Location:home.php");
         } else {
       ?>
         <div class="alert alert-danger" role="alert">
@@ -61,40 +57,39 @@
         }
     }
     if (!empty($_POST["dataForUpdating"])){
-      $order_id = $_POST['dataForUpdating'];
-      $conexao = mysqli_connect("localhost","root","","BookStoreDB") or print (mysqli_error());
-      $query = "SELECT id,description,amount FROM orders WHERE id=$order_id";
-      $resultado = mysqli_query($conexao,$query);  
-      $linha = mysqli_fetch_array($resultado);
-      
+        $order_id = $_POST['dataForUpdating'];
+        $conexao = mysqli_connect("localhost","root","","BookStoreDB") or print (mysqli_error());
+        $query = "SELECT * FROM orders WHERE id=$order_id";
+        $resultado = mysqli_query($conexao,$query);  
+        $linha = mysqli_fetch_array($resultado);
       ?>
     
         <form action="update_order.php" method="post">
           <div class="form-group">
             <div class="col-md-4 mb-3">
               <label for="bookTitle">Titulo:</label>
-              <input type="text" class="form-control" id="bookTitle" name="bookTitle" value="<?php echo $linha['title'];?>">
+              <input type="text" required class="form-control" id="bookTitle" name="bookTitle" value="<?php echo $linha['title'];?>">
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-4 mb-3">
               <label for="bookWriter">Autor:</label>
-              <input type="text" class="form-control" id="bookWriter" name="bookWriter" value="<?php echo $linha['writer'];?>">
+              <input type="text" required class="form-control" id="bookWriter" name="bookWriter" value="<?php echo $linha['writer'];?>">
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-4 mb-3">
-              <label for="bookCompany">Description:</label>
-              <input type="text" class="form-control" id="bookCompany" name="bookCompany" value="<?php echo $linha['company'];?>">
+              <label for="bookCompany">Editora:</label>
+              <input type="text" required class="form-control" id="bookCompany" name="bookCompany" value="<?php echo $linha['company'];?>">
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-4 mb-3">
               <label for="emailInputLabel">Valor total:</label>
-              <input type="text" class="form-control" id="emailInputLabel" name = "amount" value="<?php echo $linha['amount'];?>">
+              <input type="number" required class="form-control" id="emailInputLabel" name = "amount" value="<?php echo $linha['amount'];?>">
             </div>
           </div>   
-          <input type = "hidden" id="inputHidden" name="codeUpdating" value="<?php echo $linha['id']; ?> ">
+          <input type="hidden" id="inputHidden" name="codeUpdating" value="<?php echo $linha['id']; ?> ">
           <button type="submit" class="btn btn-primary" name="submit">Enviar</button>
         </form>
       <?php
